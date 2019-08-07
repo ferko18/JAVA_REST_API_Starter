@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="persistenceUnit">
+        <class>com.ferko.taskplanner.models.Checklist</class>
+        <class>com.ferko.taskplanner.models.Agenda</class>
+        <class>com.ferko.taskplanner.models.Role</class>
+        <class>com.ferko.taskplanner.models.Task</class>
+        <class>com.ferko.taskplanner.models.User</class>
+
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:4444/postgres"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>

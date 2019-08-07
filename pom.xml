@@ -12,7 +12,7 @@
     <artifactId>taskplanner</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>taskplanner</name>
-    <description>corporate task planner REST API with spring boot</description>
+    <description>corporate tasks planner REST API with spring boot</description>
 
     <properties>
         <java.version>12</java.version>
