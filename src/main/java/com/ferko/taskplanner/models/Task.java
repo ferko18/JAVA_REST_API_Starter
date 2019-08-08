@@ -1,6 +1,8 @@
 package com.ferko.taskplanner.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -60,6 +62,23 @@ public class Task
         this.duedate = duedate;
     }
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<Agenda> agendas = new ArrayList<>();
+
+    //helper method to add agenda from this class and update the agenda class ( set task)
+    public void addAgenda (Agenda agenda)
+    {
+        agendas.add(agenda);
+        agenda.setTask(this);
+    }
+    //helper method to add agenda from this class and update the agenda class ( set task)
+    public void removeAgenda (Agenda agenda )
+    {
+        agendas.remove(agenda);
+        agenda.setTask(null);
+    }
+
+    
     @Override
     public boolean equals(Object o)
     {
