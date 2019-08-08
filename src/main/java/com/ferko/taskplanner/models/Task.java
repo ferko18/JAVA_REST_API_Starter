@@ -30,6 +30,21 @@ public class Task
     @JoinColumn(name = "id")
     private User taskowner;
 
+    @ManyToMany (mappedBy = "tasksAssignedToUser")
+    private List <User> attendants = new ArrayList<>();
+
+    public List<User> getAttendants()
+    {
+        return attendants;
+    }
+
+    public void setAttendants(List<User> attendants)
+    {
+        this.attendants = attendants;
+    }
+
+
+
     public User getTaskowner()
     {
         return taskowner;

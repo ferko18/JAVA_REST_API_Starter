@@ -51,7 +51,7 @@ public class User
     }
 
     @OneToMany(mappedBy = "taskowner", cascade = CascadeType.ALL)
-    private List<Task> tasksOwnedByUser = new ArrayList();
+    private List<Task> tasksOwnedByUser = new ArrayList<>();
 
     //helper method to add task to a user
 
@@ -64,6 +64,24 @@ public class User
         tasksOwnedByUser.remove(task);
         task.setTaskowner(null);
     }
+
+    @ManyToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name="attendants", joinColumns =@JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="task_id"))
+    private List<Task> tasksAssignedToUser = new ArrayList<>();
+
+    //helper methods
+    public void addTasksToAttendant(Task task)
+    {
+        tasksAssignedToUser.add(task);
+        task.getAttendants().add(this);
+    }
+
+    public void removeTasksFromAttendant(Task task)
+    {
+        tasksAssignedToUser.remove(task);
+        task.getAttendants().remove(this);
+    }
+
 
     public List<Role> getRoles()
     {
@@ -84,8 +102,6 @@ public class User
     {
         this.tasksOwnedByUser = tasksOwnedByUser;
     }
-
-
 
     public Integer getId()
     {
