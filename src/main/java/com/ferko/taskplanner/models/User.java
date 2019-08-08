@@ -36,7 +36,6 @@ public class User
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public List<Role> roles = new ArrayList<>();
-
     //helper method to add role to a user
     public void addRole(Role role)
     {
@@ -50,7 +49,44 @@ public class User
         roles.remove(role);
         role.getUsers().remove(this);
     }
-    
+
+    @OneToMany(mappedBy = "taskowner", cascade = CascadeType.ALL)
+    private List<Task> tasksOwnedByUser = new ArrayList();
+
+    //helper method to add task to a user
+
+    public void addTaskToUser(Task task){
+        tasksOwnedByUser.add(task);
+        task.setTaskowner(this);
+    }
+
+    public void removeTaskFromUser(Task task){
+        tasksOwnedByUser.remove(task);
+        task.setTaskowner(null);
+    }
+
+    public List<Role> getRoles()
+    {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles)
+    {
+        this.roles = roles;
+    }
+
+    public List<Task> getTasksOwnedByUser()
+    {
+        return tasksOwnedByUser;
+    }
+
+    public void setTasksOwnedByUser(List<Task> tasksOwnedByUser)
+    {
+        this.tasksOwnedByUser = tasksOwnedByUser;
+    }
+
+
+
     public Integer getId()
     {
         return id;
@@ -91,9 +127,7 @@ public class User
         this.email = email;
     }
 
-
-
-
+//this should be encrypted when security is added
     public void setPassword(String password)
     {
         this.password = password;

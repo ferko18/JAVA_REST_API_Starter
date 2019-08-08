@@ -2,6 +2,7 @@ package com.ferko.taskplanner.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,57 +10,54 @@ import java.util.Objects;
 @Table(name = "tasks", schema = "public", catalog = "taskplanner")
 public class Task
 {
-    private Integer id;
-    private String title;
-    private String description;
-    private String duedate;
-
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
+    private Integer id;
     @Basic
     @Column(name = "title", nullable = false, length = 255)
-    public String getTitle()
-    {
-        return title;
-    }
-
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
+    private String title;
 
     @Basic
     @Column(name = "description", nullable = false, length = 255)
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+    private String description;
 
     @Basic
     @Column(name = "duedate", nullable = false, length = 255)
-    public String getDuedate()
+    private Date duedate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private User taskowner;
+
+    public User getTaskowner()
     {
-        return duedate;
+        return taskowner;
     }
 
-    public void setDuedate(String duedate)
+    public void setTaskowner(User taskowner)
     {
-        this.duedate = duedate;
+        this.taskowner = taskowner;
+    }
+
+    public List<Agenda> getAgendas()
+    {
+        return agendas;
+    }
+
+    public void setAgendas(List<Agenda> agendas)
+    {
+        this.agendas = agendas;
+    }
+
+    public List<Checklist> getItems()
+    {
+        return items;
+    }
+
+    public void setItems(List<Checklist> items)
+    {
+        this.items = items;
     }
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
@@ -93,6 +91,49 @@ public class Task
     {
         items.remove(item);
         item.setTask(null);
+    }
+
+    public Integer getId()
+    {
+        return id;
+    }
+
+    public void setId(Integer id)
+    {
+        this.id = id;
+    }
+
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+
+    public Date getDuedate()
+    {
+        return duedate;
+    }
+
+    public void setDuedate(Date duedate)
+    {
+        this.duedate = duedate;
     }
 
     @Override
