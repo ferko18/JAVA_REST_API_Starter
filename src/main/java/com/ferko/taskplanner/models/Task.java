@@ -78,7 +78,23 @@ public class Task
         agenda.setTask(null);
     }
 
-    
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    private List<Checklist> items = new ArrayList<>();
+
+    //helper method to add agenda from this class and update the agenda class ( set task)
+    public void addChecklistItem (Checklist item)
+    {
+        items.add(item);
+        item.setTask(this);
+    }
+    //helper method to add agenda from this class and update the agenda class ( set task)
+    public void removeChecklistItem (Checklist item )
+    {
+        items.remove(item);
+        item.setTask(null);
+    }
+
     @Override
     public boolean equals(Object o)
     {
