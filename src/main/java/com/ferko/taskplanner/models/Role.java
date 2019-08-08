@@ -1,20 +1,39 @@
 package com.ferko.taskplanner.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "roles", schema = "public", catalog = "taskplanner")
 public class Role
 {
+    @Id
+    @GeneratedValue
+    @Column(name = "id", nullable = false)
     private Integer id;
+
+    @Basic
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Id
-    @Column(name = "id", nullable = false)
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();
+
     public Integer getId()
     {
         return id;
+    }
+
+    public List<User> getUsers()
+    {
+        return users;
+    }
+
+    public void setUsers(List<User> users)
+    {
+        this.users = users;
     }
 
     public void setId(Integer id)
@@ -22,8 +41,7 @@ public class Role
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name", nullable = false, length = 255)
+
     public String getName()
     {
         return name;
