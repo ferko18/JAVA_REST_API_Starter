@@ -3,7 +3,7 @@ package com.ferko.taskplanner.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Objects;
+
 
 @Entity
 @Table(name = "agendas", schema = "public", catalog = "taskplanner")

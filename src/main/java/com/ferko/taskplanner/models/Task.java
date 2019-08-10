@@ -28,10 +28,14 @@ import java.util.Objects;
 
 
     //relationships*********************************************************/
-    @ManyToMany(mappedBy = "usersOwningTask")
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "task_owners", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> taskowners;
 
-    @ManyToMany(mappedBy = "tasksAssignedToUser")
+
+    @ManyToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name="attendants", joinColumns =@JoinColumn(name="task_id"), inverseJoinColumns = @JoinColumn(name="user_id"))
     private List<User> attendants = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
@@ -41,34 +45,58 @@ import java.util.Objects;
     private List<Checklist> checklistitems = new ArrayList<>();
 
     //helper methods ****************************************************/
-    //helper method to add agenda from this class and update the agenda class ( set task)
+    //agenda helper methods
     public void addAgenda(Agenda agenda)
     {
         agendas.add(agenda);
         agenda.setTask(this);
     }
 
-    //helper method to add agenda from this class and update the agenda class ( set task)
+
     public void removeAgenda(Agenda agenda)
     {
         agendas.remove(agenda);
         agenda.setTask(null);
     }
 
-    //helper method to add agenda from this class and update the agenda class ( set task)
+    //checklist helper methods
     public void addChecklistItem(Checklist item)
     {
         checklistitems.add(item);
         item.setTask(this);
     }
 
-    //helper method to add agenda from this class and update the agenda class ( set task)
-    public void removeChecklistItem(Checklist item)
+        public void removeChecklistItem(Checklist item)
     {
         checklistitems.remove(item);
         item.setTask(null);
     }
 
+    //attendant helper methods
+    public void addAtendant (User attendant){
+        attendants.add(attendant);
+        attendant.getTasksAssignedToUser().add(this);
+    }
+
+    public void removeAttendant(User attendant)
+    {
+        attendants.add(attendant);
+        attendant.getTasksAssignedToUser().remove(this);
+    }
+
+    //taskowner helper methods
+
+    public void addTaskOwner(User owner)
+    {
+        taskowners.add(owner);
+        owner.getUsersOwningTask().add(this);
+    }
+
+    public void removeTaskowner(User owner)
+    {
+        taskowners.remove(owner);
+        owner.getUsersOwningTask().remove(this);
+    }
 }
 
 

@@ -21,5 +21,4 @@ import java.util.Objects;
     @JoinColumn(name = "task_id")
     private Task task ;
 
-
 }

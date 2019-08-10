@@ -23,4 +23,16 @@ import java.util.List;
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 
+    //user helper methods
+    public void addUserToRole(User user)
+    {
+        users.add(user);
+        user.getRoles().add(this);
+    }
+
+    public void removeUserfromRole(User user)
+    {
+        users.remove(user);
+        user.getRoles().remove(this);
+    }
 }

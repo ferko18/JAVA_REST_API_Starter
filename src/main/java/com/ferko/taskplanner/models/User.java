@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "taskplanner")
@@ -39,14 +39,11 @@ import java.util.Objects;
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public List<Role> roles = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name = "task_owners", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
+    @ManyToMany(mappedBy = "taskowners")
     private List<Task> usersOwningTask = new ArrayList<>();
 
-    @ManyToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name="attendants", joinColumns =@JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="task_id"))
+    @ManyToMany(mappedBy = "attendants")
     private List<Task> tasksAssignedToUser = new ArrayList<>();
-
 
     //helper methods*********************************************************/
     //helper method to add role to a user
@@ -62,22 +59,5 @@ import java.util.Objects;
         roles.remove(role);
         role.getUsers().remove(this);
     }
-
-    //helper method to add task to attendant
-    public void addTasksToAttendant(Task task)
-    {
-        tasksAssignedToUser.add(task);
-        task.getAttendants().add(this);
-    }
-
-    public void removeTasksFromAttendant(Task task)
-    {
-        tasksAssignedToUser.remove(task);
-        task.getAttendants().remove(this);
-    }
-
-
-
-
 
 }
