@@ -1,5 +1,6 @@
 package com.ferko.taskplanner.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ import java.util.Objects;
     private String description;
     @Basic
     @Column(name = "duedate", nullable = false, length = 255)
+    @JsonFormat(pattern="MM-dd-yyyy")
     private Date duedate;
 
 

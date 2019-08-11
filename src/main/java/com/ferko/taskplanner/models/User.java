@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users", schema = "public", catalog = "taskplanner")
 @Data public class User
