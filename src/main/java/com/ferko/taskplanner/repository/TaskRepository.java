@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface TaskRepository extends CrudRepository <Task, Integer>
 {
-    @Query(value = "select * from tasks where duedate < (current_timestamp-interval '1 day')", nativeQuery = true)
+    @Query(value = "select * from taskplanner.public.tasks where duedate < (current_timestamp-interval '1 day')", nativeQuery = true)
     List<Task> overdueTasks ();
 }

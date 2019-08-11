@@ -1,6 +1,7 @@
 package com.ferko.taskplanner.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Data public class Task
 {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic
@@ -33,6 +34,7 @@ import java.util.Objects;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "task_owners", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JsonIgnoreProperties(value ={"usersOwningTask", "hibernateLazyInitializer"})
     private List<User> taskowners;
 
 
@@ -41,9 +43,11 @@ import java.util.Objects;
     private List<User> attendants = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value ={"task", "hibernateLazyInitializer"})
     private List<Agenda> agendas = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value ={"task", "hibernateLazyInitializer"})
     private List<Checklist> checklistitems = new ArrayList<>();
 
     //helper methods ****************************************************/

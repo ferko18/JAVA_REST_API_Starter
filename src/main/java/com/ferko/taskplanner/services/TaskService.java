@@ -12,8 +12,7 @@ public interface TaskService
     //get task by id
     Task findTaskById(Integer id);
     //get expired tasks
-
     List <Task> listExpiredTasks();
-
-
+    //add a task
+    Task addTask(Task task);
 }

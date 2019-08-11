@@ -42,5 +42,11 @@ public TaskServiceImpl(TaskRepository tr)
         return expiredtasks;
     }
 
+    @Override
+    public Task addTask(Task task)
+    {
+        return taskrepo.save(task);
+    }
+
 
 }
