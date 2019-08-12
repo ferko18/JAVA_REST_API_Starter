@@ -26,6 +26,7 @@ public class Checklist
     @JoinColumn(name = "task_id")
     private Task task ;
 
+    //this is needed to update this class from Task
     public Checklist(String item)
     {
        this.item= item;

@@ -13,8 +13,7 @@ import java.util.List;
 @Service (value = "taskService")
 public class TaskServiceImpl implements TaskService
 {
-    @Autowired
-    private ChecklistRepository checklistrepo;
+    
 private TaskRepository taskrepo;
 @Autowired
 public TaskServiceImpl(TaskRepository tr)
@@ -48,12 +47,14 @@ public TaskServiceImpl(TaskRepository tr)
          newTask.setTitle(task.getTitle());
          newTask.setDescription(task.getDescription());
          newTask.setDuedate(task.getDuedate());
-         taskrepo.save(newTask); //save transient before flushing
 
+        //save transient before flushing
+         taskrepo.save(newTask);
+
+         //loop through the checklist array and add them to newTask using the helper method
          for (Checklist item :task.getChecklistitems())
          {
              newTask.addChecklistItem(item);
-
          }
         return taskrepo.save(newTask);
 
