@@ -2,7 +2,9 @@ package com.ferko.taskplanner.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +14,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tasks", schema = "public", catalog = "taskplanner")
-@Data public class Task
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Task
 {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -40,6 +45,7 @@ import java.util.Objects;
 
     @ManyToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name="attendants", joinColumns =@JoinColumn(name="task_id"), inverseJoinColumns = @JoinColumn(name="user_id"))
+    @JsonIgnoreProperties(value ={"  tasksAssignedToUser", "hibernateLazyInitializer"})
     private List<User> attendants = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
@@ -68,6 +74,9 @@ import java.util.Objects;
     //checklist helper methods
     public void addChecklistItem(Checklist item)
     {
+        if (checklistitems==null){
+            checklistitems = new ArrayList<>();
+        }
         checklistitems.add(item);
         item.setTask(this);
     }
@@ -103,6 +112,9 @@ import java.util.Objects;
         taskowners.remove(owner);
         owner.getUsersOwningTask().remove(this);
     }
+
+
+
 }
 
 
