@@ -1,12 +1,16 @@
 package com.ferko.taskplanner.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "agendas", schema = "public", catalog = "taskplanner")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data public class Agenda
 {
     @Id
@@ -21,4 +25,9 @@ import javax.persistence.*;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")
     private Task task;
+
+    public Agenda(String agenda)
+    {
+        this.agenda=agenda;
+    }
 }

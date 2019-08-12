@@ -1,11 +1,13 @@
 package com.ferko.taskplanner.services;
 
+import com.ferko.taskplanner.models.Agenda;
 import com.ferko.taskplanner.models.Checklist;
 import com.ferko.taskplanner.models.Task;
 import com.ferko.taskplanner.repository.ChecklistRepository;
 import com.ferko.taskplanner.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
 @Service (value = "taskService")
 public class TaskServiceImpl implements TaskService
 {
-    
+
 private TaskRepository taskrepo;
 @Autowired
 public TaskServiceImpl(TaskRepository tr)
@@ -41,6 +43,7 @@ public TaskServiceImpl(TaskRepository tr)
         return expiredtasks;
     }
     @Override
+    @Transactional
     public Task addTask(Task task)
     {
          Task newTask = new Task();
@@ -56,10 +59,12 @@ public TaskServiceImpl(TaskRepository tr)
          {
              newTask.addChecklistItem(item);
          }
+
+         for (Agenda agenda: task.getAgendas())
+         {
+             newTask.addAgenda(agenda);
+         }
         return taskrepo.save(newTask);
-
-
-
 
     }
 }
