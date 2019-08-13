@@ -51,7 +51,7 @@ public TaskServiceImpl(TaskRepository tr)
          newTask.setDescription(task.getDescription());
          newTask.setDuedate(task.getDuedate());
 
-        //save transient before flushing
+        //save transient before flushing (save task table before adding checklist and agenda)
          taskrepo.save(newTask);
 
          //loop through the checklist array and add them to newTask using the helper method
@@ -59,7 +59,7 @@ public TaskServiceImpl(TaskRepository tr)
          {
              newTask.addChecklistItem(item);
          }
-
+//loop through the agenda array from task9which will come from request body) and add them to newTask using the helper method
          for (Agenda agenda: task.getAgendas())
          {
              newTask.addAgenda(agenda);
