@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,8 @@ public TaskServiceImpl(TaskRepository tr)
         return taskrepo.save(newTask);
 
     }
-
+@Override
+@Transactional
     public Task editTask (Task t, Integer id)
     {
         //FERKO: to be handelled properly
@@ -87,7 +89,29 @@ public TaskServiceImpl(TaskRepository tr)
             temp.setDuedate(t.getDuedate());
         }
 
+        if (t.getChecklistitems()!=null)
+        {
+            temp.setChecklistitems(t.getChecklistitems());
+        }
+
+        if (t.getAgendas()!=null)
+        {
+            temp.setAgendas(t.getAgendas());
+        }
+
         return taskrepo.save(temp);
 
-}
+    }
+    @Override
+    @Transactional
+     public void deleteTask (Integer id){
+    if (taskrepo.findById(id).isPresent())
+    {
+        taskrepo.deleteById(id);
+    }
+    else {
+      //FERKO to be handelled
+    }
+     }
+
 }

@@ -15,4 +15,10 @@ public interface TaskService
     List <Task> listExpiredTasks();
     //add a task
     Task addTask(Task task);
+
+    //edit task
+    Task editTask(Task t, Integer i);
+    //delete Task
+
+    void deleteTask(Integer id);
 }

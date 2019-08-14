@@ -45,5 +45,18 @@ public class TaskController
        return new ResponseEntity<>(task, HttpStatus.CREATED);
 }
 
-
+@PutMapping(value="/edit/{id}",  consumes = {"application/json"},
+        produces = {"application/json"})
+    public ResponseEntity <?> updateTask (@RequestBody Task t , @PathVariable Integer id)
+{
+    Task task = taskService.editTask(t,id);
+    return new ResponseEntity<>(task,HttpStatus.OK);
 }
+
+@DeleteMapping(value = "delete/{id}")
+    public ResponseEntity<?>deleteTask (@PathVariable Integer id )
+{
+    taskService.deleteTask(id);
+    return new ResponseEntity<>(HttpStatus.OK);
+
+}}
