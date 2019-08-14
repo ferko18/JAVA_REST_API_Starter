@@ -9,7 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "taskplanner")
-@Data public class User
+@Data
+public class User
 {
     @Id
     @GeneratedValue
@@ -53,7 +54,7 @@ import java.util.List;
     }
 
     //helper method to remove user from role
-    public void removeRole(Role role )
+    public void removeRole(Role role)
     {
         roles.remove(role);
         role.getUsers().remove(this);

@@ -16,15 +16,17 @@ import java.rmi.NoSuchObjectException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service (value = "taskService")
+@Service(value = "taskService")
 public class TaskServiceImpl implements TaskService
 {
-private TaskRepository taskrepo;
-@Autowired
-public TaskServiceImpl(TaskRepository tr)
-{
-    this.taskrepo =tr;
-}
+    //constructor injection (I can use field injection but not recommended)
+    private TaskRepository taskrepo;
+    @Autowired
+    public TaskServiceImpl(TaskRepository tr)
+    {
+        this.taskrepo = tr;
+    }
+
     @Override
     public List<Task> findAllTasks()
     {
@@ -32,69 +34,73 @@ public TaskServiceImpl(TaskRepository tr)
         taskrepo.findAll().iterator().forEachRemaining(tasklist::add);
         return tasklist;
     }
+
     @Override
     public Task findTaskById(Integer id)
     {
         //FERKO: change this during exception handling
         return taskrepo.findById(id).orElse(null);
     }
+
     @Override
     public List<Task> listExpiredTasks()
     {
-        List <Task> expiredtasks = new ArrayList<>();
+        List<Task> expiredtasks = new ArrayList<>();
         taskrepo.overdueTasks().iterator().forEachRemaining(expiredtasks::add);
         return expiredtasks;
     }
+
     @Override
     @Transactional
     public Task addTask(Task task)
     {
-         Task newTask = new Task();
-         newTask.setTitle(task.getTitle());
-         newTask.setDescription(task.getDescription());
-         newTask.setDuedate(task.getDuedate());
+        Task newTask = new Task();
+        newTask.setTitle(task.getTitle());
+        newTask.setDescription(task.getDescription());
+        newTask.setDuedate(task.getDuedate());
 
         //save transient before flushing (save task table before adding checklist and agenda)
-         taskrepo.save(newTask);
+        taskrepo.save(newTask);
 
-         //loop through the checklist array and add them to newTask using the helper method
-         for (Checklist item :task.getChecklistitems())
-         {
-             newTask.addChecklistItem(item);
-         }
+        //loop through the checklist array and add them to newTask using the helper method
+        for (Checklist item : task.getChecklistitems())
+        {
+            newTask.addChecklistItem(item);
+        }
         //loop through the agenda array from task (which will come from request body) and add them to newTask using the helper method
-         for (Agenda agenda: task.getAgendas())
-         {
-             newTask.addAgenda(agenda);
-         }
+        for (Agenda agenda : task.getAgendas())
+        {
+            newTask.addAgenda(agenda);
+        }
         return taskrepo.save(newTask);
 
     }
-@Override
-@Transactional
-    public Task editTask (Task t, Integer id)
+
+    @Override
+    @Transactional
+    public Task editTask(Task t, Integer id)
     {
         //FERKO: to be handelled properly
         Task temp = taskrepo.findById(id).orElseThrow(null);
-        if (t.getTitle()!=null)
+        if (t.getTitle() != null)
         {
             temp.setTitle(t.getTitle());
         }
-        if (t.getDescription()!=null)
+        if (t.getDescription() != null)
         {
             temp.setDescription(t.getDescription());
         }
-        if (t.getDuedate()!=null)
+        if (t.getDuedate() != null)
         {
             temp.setDuedate(t.getDuedate());
         }
 
-        if (t.getChecklistitems()!=null)
+        if (t.getChecklistitems() != null)
         {
             temp.setChecklistitems(t.getChecklistitems());
         }
 
-        if (t.getAgendas()!=null)
+        if (t.getAgendas() != null)
         {
             temp.setAgendas(t.getAgendas());
         }
@@ -102,16 +108,18 @@ public TaskServiceImpl(TaskRepository tr)
         return taskrepo.save(temp);
 
     }
+
     @Override
     @Transactional
-     public void deleteTask (Integer id){
-    if (taskrepo.findById(id).isPresent())
+    public void deleteTask(Integer id)
     {
-        taskrepo.deleteById(id);
+        if (taskrepo.findById(id).isPresent())
+        {
+            taskrepo.deleteById(id);
+        } else
+        {
+            //FERKO to be handelled
+        }
     }
-    else {
-      //FERKO to be handelled
-    }
-     }
 
 }
