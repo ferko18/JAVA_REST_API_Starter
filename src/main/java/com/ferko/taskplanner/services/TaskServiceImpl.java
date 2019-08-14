@@ -6,8 +6,11 @@ import com.ferko.taskplanner.models.Task;
 import com.ferko.taskplanner.repository.ChecklistRepository;
 import com.ferko.taskplanner.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,4 +69,25 @@ public TaskServiceImpl(TaskRepository tr)
         return taskrepo.save(newTask);
 
     }
+
+    public Task editTask (Task t, Integer id)
+    {
+        //FERKO: to be handelled properly
+        Task temp = taskrepo.findById(id).orElseThrow(null);
+        if (t.getTitle()!=null)
+        {
+            temp.setTitle(t.getTitle());
+        }
+        if (t.getDescription()!=null)
+        {
+            temp.setDescription(t.getDescription());
+        }
+        if (t.getDuedate()!=null)
+        {
+            temp.setDuedate(t.getDuedate());
+        }
+
+        return taskrepo.save(temp);
+
+}
 }
