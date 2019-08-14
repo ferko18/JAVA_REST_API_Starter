@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table (name = "checklist", schema = "public", catalog = "taskplanner")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -15,7 +15,6 @@ public class TaskController
 {
     @Autowired
     private TaskService taskService;
-
     @GetMapping(value = "/tasks",
             produces = {"application/json"})
    public ResponseEntity<?> listAllTasks()
@@ -23,7 +22,6 @@ public class TaskController
        List <Task> tasks = taskService.findAllTasks();
        return new ResponseEntity<>(tasks, HttpStatus.OK);
    }
-
     @GetMapping(value = "/expired",
             produces = {"application/json"})
     public ResponseEntity<?> listExpiredTasks()
@@ -42,7 +40,7 @@ public class TaskController
     @PostMapping(value = "/add",
             consumes = {"application/json"},
             produces = {"application/json"})
-public ResponseEntity<?> addTask (@RequestBody Task t){
+    public ResponseEntity<?> addTask (@RequestBody Task t){
        Task task= taskService.addTask(t);
        return new ResponseEntity<>(task, HttpStatus.CREATED);
 }

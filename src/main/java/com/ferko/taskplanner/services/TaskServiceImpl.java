@@ -15,7 +15,6 @@ import java.util.List;
 @Service (value = "taskService")
 public class TaskServiceImpl implements TaskService
 {
-
 private TaskRepository taskrepo;
 @Autowired
 public TaskServiceImpl(TaskRepository tr)
@@ -59,7 +58,7 @@ public TaskServiceImpl(TaskRepository tr)
          {
              newTask.addChecklistItem(item);
          }
-//loop through the agenda array from task9which will come from request body) and add them to newTask using the helper method
+        //loop through the agenda array from task (which will come from request body) and add them to newTask using the helper method
          for (Agenda agenda: task.getAgendas())
          {
              newTask.addAgenda(agenda);
